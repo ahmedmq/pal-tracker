@@ -1,4 +1,4 @@
-package test.pivotal.pal.trackerapi;
+package test.pivotal.pal.tracker.trackerapi;
 
 import com.jayway.jsonpath.DocumentContext;
 import io.pivotal.pal.tracker.PalTrackerApplication;

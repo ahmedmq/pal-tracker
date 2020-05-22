@@ -1,4 +1,4 @@
-package test.pivotal.pal.tracker;
+package test.pivotal.pal.tracker.tracker;
 
 import io.pivotal.pal.tracker.TimeEntry;
 import io.pivotal.pal.tracker.TimeEntryController;
@@ -29,17 +29,17 @@ public class TimeEntryControllerTest {
 
     @Test
     public void testCreate() {
-        long projectId = 123L;
-        long userId = 456L;
+        Long projectId = 123L;
+        Long userId = 456L;
         TimeEntry timeEntryToCreate = new TimeEntry(projectId, userId, LocalDate.parse("2017-01-08"), 8);
 
-        long timeEntryId = 1L;
+        Long timeEntryId = 1L;
         TimeEntry expectedResult = new TimeEntry(timeEntryId, projectId, userId, LocalDate.parse("2017-01-08"), 8);
         doReturn(expectedResult)
             .when(timeEntryRepository)
             .create(any(TimeEntry.class));
 
-        ResponseEntity response = controller.create(timeEntryToCreate);
+        ResponseEntity<TimeEntry> response = controller.create(timeEntryToCreate);
 
         verify(timeEntryRepository).create(timeEntryToCreate);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
@@ -48,15 +48,15 @@ public class TimeEntryControllerTest {
 
     @Test
     public void testRead() {
-        long timeEntryId = 1L;
-        long projectId = 123L;
-        long userId = 456L;
+        Long timeEntryId = 1L;
+        Long projectId = 123L;
+        Long userId = 456L;
         TimeEntry expected = new TimeEntry(timeEntryId, projectId, userId, LocalDate.parse("2017-01-08"), 8);
         doReturn(expected)
             .when(timeEntryRepository)
             .find(timeEntryId);
 
-        ResponseEntity<TimeEntry> response = controller.read(timeEntryId);
+        ResponseEntity<TimeEntry> response = controller.find(timeEntryId);
 
         verify(timeEntryRepository).find(timeEntryId);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -65,12 +65,12 @@ public class TimeEntryControllerTest {
 
     @Test
     public void testRead_NotFound() {
-        long nonExistentTimeEntryId = 1L;
+        Long nonExistentTimeEntryId = 1L;
         doReturn(null)
             .when(timeEntryRepository)
             .find(nonExistentTimeEntryId);
 
-        ResponseEntity<TimeEntry> response = controller.read(nonExistentTimeEntryId);
+        ResponseEntity<TimeEntry> response = controller.find(nonExistentTimeEntryId);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
     }
 
@@ -91,15 +91,15 @@ public class TimeEntryControllerTest {
 
     @Test
     public void testUpdate() {
-        long timeEntryId = 1L;
-        long projectId = 987L;
-        long userId = 654L;
+        Long timeEntryId = 1L;
+        Long projectId = 987L;
+        Long userId = 654L;
         TimeEntry expected = new TimeEntry(timeEntryId, projectId, userId, LocalDate.parse("2017-01-07"), 4);
         doReturn(expected)
             .when(timeEntryRepository)
             .update(eq(timeEntryId), any(TimeEntry.class));
 
-        ResponseEntity response = controller.update(timeEntryId, expected);
+        ResponseEntity<TimeEntry> response = controller.update(timeEntryId, expected);
 
         verify(timeEntryRepository).update(timeEntryId, expected);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -108,19 +108,19 @@ public class TimeEntryControllerTest {
 
     @Test
     public void testUpdate_NotFound() {
-        long nonExistentTimeEntryId = 1L;
+        Long nonExistentTimeEntryId = 1L;
         doReturn(null)
             .when(timeEntryRepository)
             .update(eq(nonExistentTimeEntryId), any(TimeEntry.class));
 
-        ResponseEntity response = controller.update(nonExistentTimeEntryId, new TimeEntry());
+        ResponseEntity<TimeEntry> response = controller.update(nonExistentTimeEntryId, new TimeEntry());
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
     }
 
     @Test
     public void testDelete() {
-        long timeEntryId = 1L;
-        ResponseEntity response = controller.delete(timeEntryId);
+        Long timeEntryId = 1L;
+        ResponseEntity<Void> response = controller.delete(timeEntryId);
         verify(timeEntryRepository).delete(timeEntryId);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
     }
