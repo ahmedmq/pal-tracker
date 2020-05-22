@@ -4,17 +4,20 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicLong;
 
 public class InMemoryTimeEntryRepository implements TimeEntryRepository {
 
     Map<Long, TimeEntry> repository = new HashMap<>();
+    private final AtomicLong count = new AtomicLong(0);
 
     @Override
     public TimeEntry create(TimeEntry timeEntry) {
 
-        timeEntry.setId(repository.size() + 1L);
+        timeEntry.setId(count.incrementAndGet());
 
-        return repository.put(timeEntry.getId(), timeEntry);
+        repository.put(timeEntry.getId(), timeEntry);
+        return timeEntry;
     }
 
     @Override
@@ -29,7 +32,9 @@ public class InMemoryTimeEntryRepository implements TimeEntryRepository {
 
     @Override
     public TimeEntry update(Long id, TimeEntry timeEntry) {
-        return repository.put(id, timeEntry);
+         repository.replace(id, timeEntry);
+         timeEntry.setId(id);
+         return timeEntry;
     }
 
     @Override

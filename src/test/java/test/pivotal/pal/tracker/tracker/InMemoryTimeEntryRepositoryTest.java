@@ -84,7 +84,7 @@ public class InMemoryTimeEntryRepositoryTest {
                 1L,
                 new TimeEntry(321L, 654L, LocalDate.parse("2017-01-09"), 5));
 
-        TimeEntry expected = new TimeEntry(321L, 654L, LocalDate.parse("2017-01-09"), 5);
+        TimeEntry expected = new TimeEntry(1L, 321L, 654L, LocalDate.parse("2017-01-09"), 5);
         assertThat(updatedEntry).isEqualTo(expected);
     }
 
