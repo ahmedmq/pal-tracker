@@ -21,7 +21,7 @@ public class TimeEntryController {
     }
 
     @GetMapping("/time-entries/{timeEntryId}")
-    public ResponseEntity<TimeEntry> find(@PathVariable Long timeEntryId) {
+    public ResponseEntity<TimeEntry> read(@PathVariable Long timeEntryId) {
         TimeEntry timeEntry = timeEntryRepository.find(timeEntryId);
 
         if (timeEntry != null) {

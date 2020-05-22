@@ -32,9 +32,11 @@ public class InMemoryTimeEntryRepository implements TimeEntryRepository {
 
     @Override
     public TimeEntry update(Long id, TimeEntry timeEntry) {
-         repository.replace(id, timeEntry);
+         TimeEntry nullEntry = repository.replace(id, timeEntry);
+         if (nullEntry == null) return nullEntry;
          timeEntry.setId(id);
          return timeEntry;
+
     }
 
     @Override
