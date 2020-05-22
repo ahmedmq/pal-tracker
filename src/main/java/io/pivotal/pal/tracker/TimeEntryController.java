@@ -46,9 +46,9 @@ public class TimeEntryController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @DeleteMapping(value = "/time-entries/{timeEntryId}", consumes = "application/json")
-    public ResponseEntity<Void> delete(@PathVariable Long timeEntryId) {
+    @DeleteMapping(value = "/time-entries/{timeEntryId}")
+    public ResponseEntity delete(@PathVariable Long timeEntryId) {
         timeEntryRepository.delete(timeEntryId);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 }
